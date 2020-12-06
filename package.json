@@ -10,7 +10,7 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --ignore-path .gitignore",
     "lint": "yarn lint:js && yarn lint:style",
-    "deploy": "git stash && git checkout gh-pages && git subtree push --prefix=dist/ https://github.com/cryp2knight/nuxt-playground.git gh-pages"
+    "deploy": "yarn generate && git stash && gco gh-pages && ga dist && cz c && git subtree push --prefix=dist/ https://github.com/cryp2knight/nuxt-playground.git gh-pages && gco main && git stash pop"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
