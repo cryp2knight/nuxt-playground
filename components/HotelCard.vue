@@ -235,6 +235,10 @@ export default Vue.extend({
           booked: firebase.firestore.FieldValue.arrayUnion(roomRef),
         })
       } catch (e) {
+        await userRef.set({
+          // @ts-ignore
+          booked: firebase.firestore.FieldValue.arrayUnion(roomRef),
+        })
         console.log(e)
       }
       try {
@@ -266,6 +270,10 @@ export default Vue.extend({
         })
         alert('You successfully bookmarked this hotel')
       } catch (e) {
+        await userRef.set({
+          // @ts-ignore
+          saved: firebase.firestore.FieldValue.arrayUnion(hotelRef),
+        })
         console.log(e)
       }
     },

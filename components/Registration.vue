@@ -2,7 +2,7 @@
   <div class="mx-3 md:max-w-md">
     <div class="bg-white rounded-3xl p-6 shadow-xl" v-if="!isLoggedIn">
       <span class="text-3xl font-semibold text-gray-800"
-        >Hotel Reservation</span
+        >LAYAS</span
       >
       <div class="flex flex-col mt-4">
         <label class="text-sm text-red-700">Email</label>

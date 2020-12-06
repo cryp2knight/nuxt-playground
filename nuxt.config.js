@@ -35,6 +35,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/firebase',
   ],
+  router: { base: '/nuxt-playground/' },
   firebase: {
     config: {
       apiKey: "AIzaSyDHtARtUCmy1jogfR5tt-6-lgH33nCfH3o",

@@ -1,78 +1,85 @@
 <template>
   <div class="flex flex-col items-center mx-5 mt-8">
-    <div class="flex flex-col">
-      <input
-        type="text"
-        v-model="name"
-        class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-        placeholder="Hotel name"
-      />
-      <input
-        type="text"
-        v-model="address"
-        class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-        placeholder="Hotel address"
-      />
-      <textarea
-        v-model="description"
-        placeholder="description"
-        class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-      ></textarea>
-      <select v-model="rating" class="w-full px-4 my-1 py-2 border bg-white">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </select>
-      <input
-        type="text"
-        v-model="photo"
-        class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-        placeholder="Photo URL"
-      />
-      <input
-        type="text"
-        v-model="tags"
-        class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-        placeholder="tags (separated by comma)"
-      />
-      <div>
-        <ul>
-          <li v-for="(r, index) of rooms" :key="index">
-            {{ r.type }} - <b>{{ r.price }}</b>
-            <button
-              @click="rooms.splice(index, 1)"
-              class="bg-red-900 text-white rounded-full w-5 h-5 mx-3"
-            >
-              x
-            </button>
-          </li>
-        </ul>
-      </div>
-      <div class="flex">
+    <div v-if="isLoggedIn">
+      <div class="flex flex-col">
         <input
           type="text"
-          v-model="room"
+          v-model="name"
           class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
-          placeholder="type, price (master, 1250)"
+          placeholder="Hotel name"
         />
-        <button class="bg-red-200 p-2 rounded ml-5" @click="addToRoom">add</button>
-      </div>
+        <input
+          type="text"
+          v-model="address"
+          class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
+          placeholder="Hotel address"
+        />
+        <textarea
+          v-model="description"
+          placeholder="description"
+          class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
+        ></textarea>
+        <select v-model="rating" class="w-full px-4 my-1 py-2 border bg-white">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+        <input
+          type="text"
+          v-model="photo"
+          class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
+          placeholder="Photo URL"
+        />
+        <input
+          type="text"
+          v-model="tags"
+          class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
+          placeholder="tags (separated by comma)"
+        />
+        <div>
+          <ul>
+            <li v-for="(r, index) of rooms" :key="index">
+              {{ r.type }} - <b>{{ r.price }}</b>
+              <button
+                @click="rooms.splice(index, 1)"
+                class="bg-red-900 text-white rounded-full w-5 h-5 mx-3"
+              >
+                x
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="flex">
+          <input
+            type="text"
+            v-model="room"
+            class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
+            placeholder="type, price (master, 1250)"
+          />
+          <button class="bg-red-200 p-2 rounded ml-5" @click="addToRoom">
+            add
+          </button>
+        </div>
 
-      <button
-        class="px-4 my-1 py-2 bg-red-600 text-white rounded-lg mt-5"
-        @click="saveToFirestore"
-      >
-        Save
-      </button>
+        <button
+          class="px-4 my-1 py-2 bg-red-600 text-white rounded-lg mt-5"
+          @click="saveToFirestore"
+        >
+          Save
+        </button>
+      </div>
     </div>
+    <Registration v-if="!isLoggedIn" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import Registration from '~/components/Registration.vue'
 import firebase from 'firebase'
+import { mapState, mapGetters } from 'vuex'
 
 export default Vue.extend({
   data() {
@@ -86,6 +93,12 @@ export default Vue.extend({
       rooms: [],
       room: '',
     }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+  },
+  components: {
+    Registration,
   },
   methods: {
     arrayTags() {
@@ -105,7 +118,6 @@ export default Vue.extend({
       // @ts-ignore
       this.rooms.push({ type: rooms_[0], price: rooms_[1], is_available: true })
       this.room = ''
-      console.log(this.rooms)
     },
     async saveToFirestore() {
       const required = [
