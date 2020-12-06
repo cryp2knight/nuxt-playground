@@ -19,6 +19,7 @@
           placeholder="description"
           class="w-full px-4 my-1 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-red-500"
         ></textarea>
+        <label class="text-gray-500">Rating (out of 5 stars)</label>
         <select v-model="rating" class="w-full px-4 my-1 py-2 border bg-white">
           <option>1</option>
           <option>2</option>

@@ -248,10 +248,10 @@ export default Vue.extend({
         })
         // @ts-ignore
         this.rooms[index].is_available = false
-        alert('You uccessfully booked this room.')
       } catch (e) {
         console.log(e)
       }
+      alert('You uccessfully booked this room.')
     },
     async saveHotel() {
       // @ts-ignore
@@ -268,7 +268,6 @@ export default Vue.extend({
           // @ts-ignore
           saved: firebase.firestore.FieldValue.arrayUnion(hotelRef),
         })
-        alert('You successfully bookmarked this hotel')
       } catch (e) {
         await userRef.set({
           // @ts-ignore
@@ -276,6 +275,7 @@ export default Vue.extend({
         })
         console.log(e)
       }
+      alert('You successfully bookmarked this hotel')
     },
     async unsaveHotel() {
       // @ts-ignore
