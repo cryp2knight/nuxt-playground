@@ -179,7 +179,6 @@ export default Vue.extend({
       } catch (e) {
         console.error(e)
       }
-      console.log(this.bookedHotels)
     },
   },
 })
