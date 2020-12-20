@@ -1,4 +1,5 @@
 export default () => ({
     authUser: null,
-    option: 'all'
+    option: 'all',
+    hasSignedIn: false,
 })

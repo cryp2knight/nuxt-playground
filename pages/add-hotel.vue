@@ -175,6 +175,7 @@ export default Vue.extend({
         return
       }
       alert('Success.')
+      window.location.reload(true)
     },
   },
 })

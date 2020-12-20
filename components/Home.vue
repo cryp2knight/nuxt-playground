@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col" v-if="isLoggedIn">
+  <div class="flex flex-col" v-if="isLoggedIn && hasSignedIn">
     <div class="flex justify-center">
       <div class="flex items-center mb-6 mt-2">
         <svg
@@ -99,7 +99,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapState(['authUser', 'option']),
+    ...mapState(['authUser', 'option', 'hasSignedIn']),
     ...mapGetters(['isLoggedIn', 'currentOption']),
   },
   methods: {

@@ -15,5 +15,9 @@ export default {
 
     SET_OPTION: (state, option ) => {
         state.option = option
+    },
+
+    SET_SIGNED_IN: (state) => {
+        state.hasSignedIn = true;
     }
 }
