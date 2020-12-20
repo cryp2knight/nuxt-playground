@@ -85,7 +85,6 @@ export default Vue.extend({
           this.email,
           this.password
         )
-        this.$store.commit("SET_SIGNED_IN");
       } catch (e) {
         alert(e)
       }
