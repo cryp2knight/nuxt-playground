@@ -34,6 +34,10 @@ export default {
         }
     },
 
+    resetStore({ commit }) {
+        commit('RESET_STORE')
+    },
+
     // @ts-ignore
     onAuthStateChanged({ commit }, { authUser }) {
         if (!authUser) {

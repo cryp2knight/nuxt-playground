@@ -27,6 +27,7 @@ export default Vue.extend({
       try {
         // @ts-ignore
         await this.$fire.auth.signOut()
+        window.location.reload()
       } catch (e) {
         alert(e)
       }

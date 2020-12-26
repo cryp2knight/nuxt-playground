@@ -21,14 +21,14 @@
         />
       </div>
       <hr class="my-3" />
-      <div class="flex mt-4">
-        <Button
-          class="text-red-600 w-20 bg-white border border-red-600 p-2 font-semibold rounded-lg "
-          @click="register"
-          >Register</Button
+      <div class="flex mt-4 justify-between">
+        <nuxt-link
+          class="text-red-600 bg-white border border-red-600 p-2 font-semibold rounded-lg"
+          to="/register"
+          >Create account</nuxt-link
         >
         <Button
-          class="ml-2 w-20 text-white bg-red-600 p-2 font-semibold rounded-lg hover:bg-red-900"
+          class="ml-2 text-white bg-red-600 p-2 font-semibold rounded-lg hover:bg-red-900"
           @click="signInUser"
           >Sign In</Button
         >
@@ -58,26 +58,6 @@ export default Vue.extend({
     }),
   },
   methods: {
-    async register() {
-      try {
-        // @ts-ignore
-        await this.$fire.auth.createUserWithEmailAndPassword(
-          this.email,
-          this.password
-        )
-        // hacking it with this temp solution
-        // coz client is asking for it
-        // but i got no time
-        // right now, sorry ;(
-        //@ts-ignore
-        await this.$fire.auth.signOut()
-        this.$store.commit('RESET_STORE')
-        alert('Successfully regsitered. pls login')
-        window.location.reload(true)
-      } catch (e) {
-        alert(e)
-      }
-    },
     async signInUser() {
       try {
         // @ts-ignore

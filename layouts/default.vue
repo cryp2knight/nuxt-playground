@@ -1,5 +1,6 @@
 <template>
   <div class="bg-red-100 antialiased flex flex-col min-h-screen">
+    <NavBar />
     <nuxt />
     <Footer />
   </div>

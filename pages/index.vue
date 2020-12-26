@@ -1,10 +1,7 @@
 <template>
-  <div>
-    <NavBar />
-    <div class="flex flex-col items-center mx-5 mt-8">
-      <Registration />
-      <Home />
-    </div>
+  <div class="flex flex-col items-center mx-5 mt-8">
+    <Registration />
+    <Home />
   </div>
 </template>
 
