@@ -65,6 +65,9 @@ export default Vue.extend({
           this.email,
           this.password
         )
+        if (this.email === 'admin@layas.com') {
+          window.location.href = '/admin'
+        }
         if (!a.user.emailVerified && this.email !== 'admin@layas.com') {
           // @ts-ignore
           await this.$fire.auth.signOut()
