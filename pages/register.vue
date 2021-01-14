@@ -138,7 +138,7 @@ export default Vue.extend({
         this.$store.dispatch('resetStore')
         // @ts-ignore
         await this.$fire.auth.signOut()
-        alert('successfully registered! please verify your emailt to login')
+        alert('successfully registered! please verify your email to login')
         window.location.reload()
       } catch (e) {
         alert(e)

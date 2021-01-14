@@ -66,7 +66,7 @@ export default Vue.extend({
           this.password
         )
         if (this.email === 'admin@layas.com') {
-          window.location.href = '/admin'
+          window.location.href = '/nuxt-playground/admin'
         }
         if (!a.user.emailVerified && this.email !== 'admin@layas.com') {
           // @ts-ignore
