@@ -30,7 +30,7 @@
       </span>
       <span class="flex flex-col">
         <label>Contact Number</label>
-        <input type="phone" placeholder="09|+639" v-model="contact" />
+        <input type="phone" v-model="contact" />
       </span>
       <span class="flex flex-col">
         <label>Email address</label>
@@ -134,10 +134,11 @@ export default Vue.extend({
           contact: this.contact,
           address: this.address,
         })
+        await rs.user.sendEmailVerification()
         this.$store.dispatch('resetStore')
         // @ts-ignore
         await this.$fire.auth.signOut()
-        alert('successfully registered! please login')
+        alert('successfully registered! please verify your emailt to login')
         window.location.reload()
       } catch (e) {
         alert(e)

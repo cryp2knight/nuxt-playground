@@ -61,10 +61,15 @@ export default Vue.extend({
     async signInUser() {
       try {
         // @ts-ignore
-        await this.$fire.auth.signInWithEmailAndPassword(
+        const a = await this.$fire.auth.signInWithEmailAndPassword(
           this.email,
           this.password
         )
+        if (!a.user.emailVerified && this.email !== 'admin@layas.com') {
+          // @ts-ignore
+          await this.$fire.auth.signOut()
+          throw 'Please verify your email to login'
+        }
       } catch (e) {
         alert(e)
       }
