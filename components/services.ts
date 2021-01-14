@@ -15,6 +15,5 @@ async function hotels() {
           'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         }
     })
-    console.log(access_token);
 }
 

@@ -162,7 +162,6 @@ export default Vue.extend({
             tags: this.arrayTags(),
           })
           .then(async (href: any) => {
-            console.log(this.rooms)
             if (this.rooms.length > 0) {
               await this.rooms.forEach(async (el: any) => {
                 await href.collection('rooms').add(el)
