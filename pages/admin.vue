@@ -2,7 +2,11 @@
   <div class="flex flex-col mx-auto max-w-lg m-4">
     <div class="flex justify-between items-center">
       <h1 class="text-3xl font-medium">Admin Dashboard</h1>
-      <nuxt-link class="text-red-500 font-bold text-lg underline" to="/add-hotel">Add hotel</nuxt-link>
+      <nuxt-link
+        class="text-red-500 font-bold text-lg underline"
+        to="/add-hotel"
+        >Add hotel</nuxt-link
+      >
     </div>
     <hr />
     <div class="flex flex-wrap">
@@ -14,7 +18,9 @@
         <nuxt-link
           class="text-xl font-medium text-red-700 underline"
           :to="`/users/${user.id}`"
-          >{{ user.firstName + ' ' + user.lastName }}</nuxt-link
+          >{{
+            (user.firstName || 'admin') + ' ' + (user.lastName || 'admin')
+          }}</nuxt-link
         >
         <div class="flex flex-col">
           <span class="text-sm text-gray-700">{{ user.address }}</span>

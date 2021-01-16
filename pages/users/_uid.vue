@@ -3,7 +3,7 @@
     <nuxt-link to="/admin" class="mt-10 underline text-red-600">back</nuxt-link>
     <div class="flex flex-col" v-if="user">
       <span class="text-3xl font-medium text-red-700 underline">{{
-        user.firstName + ' ' + user.lastName
+        (user.firstName || 'admin') + ' ' + (user.lastName || 'admin')
       }}</span>
       <div class="flex flex-col">
         <span class="text-sm text-gray-700">{{ user.address }}</span>
@@ -33,23 +33,42 @@
           v-if="hotel.photo"
           class="w-40 h-40 object-cover rounded-xl"
         />
-        <div class="flex flex-col gap-3">
-          <div class="flex justify-between">
-            <div class="flex flex-col">
-              <span class="text-xl font-medium">{{ hotel.name }}</span>
-              <span class="">{{ hotel.address }}</span>
-              <span class="font-bold text-lg">₱ {{ hotel.price }}</span>
-              <span
-                >Room type: <strong>{{ hotel.type }}</strong></span
-              >
-              <span
-                >Booked on
-                <strong>{{
-                  hotel.booked_on.toDate().toDateString()
-                }}</strong></span
-              >
-            </div>
-            <span class="font-semibold">{{ hotel.rating }} out of 5 stars</span>
+
+        <div class="flex flex-col gap-2">
+          <span class="text-xl font-medium">{{ hotel.name }}</span>
+          <span class="font-semibold">{{ hotel.rating }} out of 5 stars</span>
+          <span class="">{{ hotel.address }}</span>
+          <hr />
+          <span class="font-bold text-lg text-right">₱ {{ hotel.price }}</span>
+          <span class="flex justify-between"
+            >Room type: <strong>{{ hotel.type }}</strong></span
+          >
+          <span class="flex justify-between"
+            >Booked on
+            <strong>{{ hotel.booked_on.toDate().toDateString() }}</strong></span
+          >
+
+          <span class="flex justify-between"
+            >Checkin:
+            <strong>{{
+              hotel.checkin.date + ' ' + hotel.checkin.time
+            }}</strong></span
+          >
+
+          <span class="flex justify-between"
+            >Checkout:
+            <strong>{{
+              hotel.checkout.date + ' ' + hotel.checkout.time
+            }}</strong></span
+          >
+          <hr />
+          <div class="flex justify-end mt-5">
+            <button
+              class="bg-red-600 text-white rounded-lg p-2"
+              @click="unbookRoom(hotel.hotel_id, hotel.room_id)"
+            >
+              Unbook room
+            </button>
           </div>
         </div>
       </div>
@@ -88,7 +107,7 @@ import Vue from 'vue'
 import firebase from 'firebase'
 
 export default Vue.extend({
-  middleware: "admin",
+  middleware: 'admin',
   data() {
     return {
       user: null,
@@ -153,6 +172,38 @@ export default Vue.extend({
             console.log(e)
           }
         })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    async unbookRoom(hotel_id: string, room_id: string) {
+      // @ts-ignore
+      const roomRef = this.$fire.firestore
+        .collection(
+          // @ts-ignore
+          `hotelReservation/${hotel_id}/rooms`
+        )
+        .doc(room_id)
+      try {
+        await roomRef.update({
+          is_available: true,
+          booked_on: firebase.firestore.FieldValue.delete(),
+          checkin: firebase.firestore.FieldValue.delete(),
+          checkout: firebase.firestore.FieldValue.delete(),
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      // @ts-ignore
+      const userRef = this.$fire.firestore.collection(`users`).doc(this.uid)
+      try {
+        await userRef.update({
+          // @ts-ignore
+          booked: firebase.firestore.FieldValue.arrayRemove(roomRef),
+        })
+        alert('you succesfully unbooked this room')
+        window.location.reload()
       } catch (e) {
         console.log(e)
       }

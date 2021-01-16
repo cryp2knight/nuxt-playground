@@ -118,7 +118,7 @@
                     <button
                       class="bg-red-600 text-white rounded-lg p-2"
                       :class="room.is_available ? '' : 'hidden'"
-                      @click="bookRoom(room.id, index)"
+                      @click="showDateModal(room.id, index)"
                     >
                       Book
                     </button>
@@ -146,6 +146,46 @@
       <div
         class="z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black opacity-50"
       ></div>
+    </div>
+
+    <div
+      tabindex="0"
+      class="z-50 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full justify-center flex items-center fixed"
+      style="background: rgba(0, 0, 0, 0.5)"
+      :class="showDate ? '' : 'hidden'"
+    >
+      <div class="bg-white p-5 rounded-xl shadow-xl flex flex-col">
+        <div class="flex justify-end">
+          <button
+            class="bg-gray-500 rounded-full w-6 h-6 text-center text-white"
+            @click="showDate = false"
+          >
+            x
+          </button>
+        </div>
+        <span class="text-xl font-semibold -mt-5 mb-5">Choose date</span>
+        <div class="flex justify-between gap-5">
+          <div class="flex flex-col">
+            <label class="text-sm text-gray-700">Checkin</label>
+            <input type="date" v-model="checkin.date" />
+            <input type="time" v-model="checkin.time" />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm text-gray-700">Checkout</label>
+            <input type="date" v-model="checkout.date" />
+            <input type="time" v-model="checkout.time" />
+          </div>
+        </div>
+        <div class="flex justify-end mt-5">
+          <button
+            class="bg-red-600 text-white rounded-lg p-2"
+            @click="bookRoom(selectedRoom.id, selectedRoom.index)"
+          >
+            Book now
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -176,7 +216,20 @@ export default Vue.extend({
     return {
       show: false,
       isSaved: false,
+      showDate: false,
       rooms: [],
+      checkin: {
+        date: '',
+        time: '',
+      },
+      checkout: {
+        date: '',
+        time: '',
+      },
+      selectedRoom: {
+        id: '',
+        index: -1,
+      },
     }
   },
   methods: {
@@ -217,7 +270,23 @@ export default Vue.extend({
       this.getRooms()
       this.show = true
     },
+    showDateModal(id: string, index: number) {
+      this.selectedRoom.id = id
+      this.selectedRoom.index = index
+      this.showDate = true
+    },
     async bookRoom(id: string, index: number) {
+      if (
+        [
+          this.checkin.date,
+          this.checkin.time,
+          this.checkout.date,
+          this.checkout.time,
+        ].includes('')
+      ) {
+        alert('pls set your checkin and checkout date and time')
+        return
+      }
       // @ts-ignore
       const userRef = this.$fire.firestore
         .collection(`users`)
@@ -245,13 +314,20 @@ export default Vue.extend({
         await roomRef.update({
           is_available: false,
           booked_on: firebase.firestore.Timestamp.now(),
+          checkin: this.checkin,
+          checkout: this.checkout,
         })
         // @ts-ignore
         this.rooms[index].is_available = false
       } catch (e) {
         console.log(e)
       }
-      alert('You uccessfully booked this room.')
+
+      // reset rooms
+      this.selectedRoom.id = ''
+      this.selectedRoom.index = -1
+      this.showDate = false
+      alert('You successfully booked this room.')
     },
     async saveHotel() {
       // @ts-ignore
