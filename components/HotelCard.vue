@@ -157,21 +157,21 @@
       <div class="bg-white p-5 rounded-xl shadow-xl flex flex-col">
         <div class="flex justify-end">
           <button
-            class="bg-gray-500 rounded-full w-6 h-6 text-center text-white"
+            class="bg-gray-500 rounded-full w-6 h-6 text-center text-white hover:bg-black"
             @click="showDate = false"
           >
-            x
+            &times;
           </button>
         </div>
-        <span class="text-xl font-semibold -mt-5 mb-5">Choose date</span>
+        <span class="text-xl font-semibold mb-5">Choose date</span>
         <div class="flex justify-between gap-5">
-          <div class="flex flex-col">
+          <div class="flex flex-col gap-1">
             <label class="text-sm text-gray-700">Checkin</label>
             <input type="date" v-model="checkin.date" />
             <input type="time" v-model="checkin.time" />
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col gap-1">
             <label class="text-sm text-gray-700">Checkout</label>
             <input type="date" v-model="checkout.date" />
             <input type="time" v-model="checkout.time" />
